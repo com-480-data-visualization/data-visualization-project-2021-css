@@ -38,7 +38,11 @@ We have one entry per player per season for the first years, but then we start t
 
 Taking for example the very last year in the dataset (2016) we get the following top 10 list
 
-![stars list](starts.html)
+![stars list](stars.png)
+
+Doing a preprocessing of the league, team, and match data, we are able to infer how many matches each team won, and so we can guess the winner of each league each season as the winner of most matches, this guess checks out against the ground truth.
+
+![winner list](winners.png)
 
 ### Related work
 
