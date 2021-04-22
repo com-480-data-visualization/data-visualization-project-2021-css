@@ -31,8 +31,8 @@ Please, fill the following sections about your project.
 
 ### Exploratory Data Analysis
 
-> Pre-processing of the data set you chose
-> - Show some basic statistics and get insights about the data
+Preprocessing of the player data shows that we have a total of 11060 players in the dataset, for each of them we have multiple `attributes` entries, those come from the FIFA video game data. We will use the overall score from that table as the rating of each player.
+We have one entry per player per season for the first years, but then we start to have multiple entries per player, which means we will have to average those.
 
 ### Related work
 
