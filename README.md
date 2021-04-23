@@ -19,9 +19,8 @@ Please, fill the following sections about your project.
 
 ### Dataset
 
-> Find a dataset (or multiple) that you will explore. Assess the quality of the data it contains and how much preprocessing / data-cleaning it will require before tackling visualization. We recommend using a standard dataset as this course is not about scraping nor data processing.
->
-> Hint: some good pointers for finding quality publicly available datasets ([Google dataset search](https://datasetsearch.research.google.com/), [Kaggle](https://www.kaggle.com/datasets), [OpenSwissData](https://opendata.swiss/en/), [SNAP](https://snap.stanford.edu/data/) and [FiveThirtyEight](https://data.fivethirtyeight.com/)), you could use also the DataSets proposed by the ENAC (see the Announcements section on Zulip).
+We decided to use a dataset from [Kaggle](https://www.kaggle.com/) as suggested. The dataset is called [European Soccer Database](https://www.kaggle.com/hugomathien/soccer). It's composed of data about teams, players and matches of 11 European countries teams. It contains the data of +10,000 players and +25,000 matches from 2008 to 2016. Players and teams attributes are sourced from EA Sports's FIFA video game series. The dataset has a lot of specific attributes that we won't need, as for example a player's prefered foot or a squad's formation, thus we will only use a subset of it to tackle our topic that we're going to introduce in the next section.
+The dataset is fairly clean, so we won't need much of preprocessing, but it contains many different tables with a lot of attributes that we won't need, which makes the data exploration a bit more tedious. We might end up needing to cross referencing our dataset with others to tackle our topic. 
 
 ### Problematic
 
