@@ -2,9 +2,9 @@
 
 | Student's name | SCIPER |
 | -------------- | ------ |
-| Alexandre Cadillon| 288684|
-|Abed Alrahman Shabaan | 237731|
-| Sabaa Karim | 269647 |
+| **C**adillon Alexandre| 288684|
+| **S**habaan Abed Alrahman | 237731|
+| **S**abaa Karim | 269647 |
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
@@ -46,11 +46,28 @@ We have one entry per player per season for the first years, but then we start t
 
 Taking for example the very last year in the dataset (2016) we get the following top 10 list
 
-![stars list](stars.png)
+|       | player_name        |   overall_rating |
+|------:|:-------------------|-----------------:|
+|  6169 | Lionel Messi       |               94 |
+|  1992 | Cristiano Ronaldo  |               93 |
+|  6369 | Luis Suarez        |               90 |
+|  6546 | Manuel Neuer       |               90 |
+|  7855 | Neymar             |               90 |
+| 11041 | Zlatan Ibrahimovic |               89 |
+|   948 | Arjen Robben       |               89 |
+|  9025 | Robert Lewandowski |               88 |
+| 10172 | Thiago Silva       |               88 |
+|  9659 | Sergio Aguero      |               88 |
 
 Doing a preprocessing of the league, team, and match data, we are able to infer how many matches each team won, and so we can guess the winner of each league each season as the winner of most matches, this guess checks out against the ground truth.
 
-![winner list](winners.png)
+|    |   league_id | season    |   team_api_id | team_long_name   |   wins |
+|---:|------------:|:----------|--------------:|:-----------------|-------:|
+|  1 |           1 | 2009/2010 |          8635 | RSC Anderlecht   |     22 |
+| 77 |       21518 | 2014/2015 |          8633 | Real Madrid CF   |     30 |
+| 23 |        7809 | 2008/2009 |          8721 | VfL Wolfsburg    |     21 |
+|  3 |           1 | 2011/2012 |          8635 | RSC Anderlecht   |     20 |
+| 76 |       21518 | 2013/2014 |          9906 | Atlético Madrid  |     28 |
 
 We can also compute meaningful statistics for every season of every league. Here is the Swiss league:
 
