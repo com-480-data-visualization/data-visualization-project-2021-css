@@ -47,6 +47,37 @@ Doing a preprocessing of the league, team, and match data, we are able to infer 
 
 ![winner list](winners.png)
 
+We can also compute meaningful statistics for every season of every league. Here is the Swiss league:
+
+|    | country_name   | league_name              | season    |   number_of_stages |   number_of_teams |   avg_home_team_scors |   avg_away_team_goals |   avg_goal_dif |   avg_goals |   total_goals |
+|---:|:---------------|:-------------------------|:----------|-------------------:|------------------:|----------------------:|----------------------:|---------------:|------------:|--------------:|
+| 79 | Switzerland    | Switzerland Super League | 2015/2016 |                 36 |                10 |               1.78333 |               1.36111 |       0.422222 |     3.14444 |           566 |
+| 80 | Switzerland    | Switzerland Super League | 2014/2015 |                 36 |                10 |               1.60556 |               1.26667 |       0.338889 |     2.87222 |           517 |
+| 81 | Switzerland    | Switzerland Super League | 2013/2014 |                 36 |                10 |               1.61111 |               1.27778 |       0.333333 |     2.88889 |           520 |
+| 82 | Switzerland    | Switzerland Super League | 2012/2013 |                 36 |                10 |               1.51111 |               1.05556 |       0.455556 |     2.56667 |           462 |
+| 83 | Switzerland    | Switzerland Super League | 2011/2012 |                 36 |                10 |               1.45062 |               1.17284 |       0.277778 |     2.62346 |           425 |
+| 84 | Switzerland    | Switzerland Super League | 2010/2011 |                 36 |                10 |               1.57222 |               1.41111 |       0.161111 |     2.98333 |           537 |
+| 85 | Switzerland    | Switzerland Super League | 2009/2010 |                 36 |                10 |               1.99444 |               1.33333 |       0.661111 |     3.32778 |           599 |
+| 86 | Switzerland    | Switzerland Super League | 2008/2009 |                 36 |                10 |               1.75556 |               1.24444 |       0.511111 |     3       |           540 |
+
+
+Or summarize matchups between teams. Here are some matchups for Real Madrid at home.
+
+|      | country_name   | league_name     | home_team      | away_team               |   games |   seasons |   home_team_goals |   away_team_goal |   home_wins |   draws |   laway_wins |
+|-----:|:---------------|:----------------|:---------------|:------------------------|--------:|----------:|------------------:|-----------------:|------------:|--------:|-------------:|
+| 4852 | Spain          | Spain LIGA BBVA | Real Madrid CF | Athletic Club de Bilbao |       8 |         8 |                34 |                9 |           8 |       0 |            0 |
+| 4859 | Spain          | Spain LIGA BBVA | Real Madrid CF | FC Barcelona            |       8 |         8 |                12 |               22 |           2 |       1 |            5 |
+| 4881 | Spain          | Spain LIGA BBVA | Real Madrid CF | Valencia CF             |       8 |         8 |                13 |                7 |           4 |       4 |            0 |
+| 4878 | Spain          | Spain LIGA BBVA | Real Madrid CF | Sevilla FC              |       8 |         8 |                27 |               11 |           7 |       0 |            1 |
+| 4853 | Spain          | Spain LIGA BBVA | Real Madrid CF | Atlético Madrid         |       8 |         8 |                13 |                8 |           4 |       1 |            3 |
+| 4864 | Spain          | Spain LIGA BBVA | Real Madrid CF | Málaga CF               |       8 |         8 |                25 |                7 |           6 |       2 |            0 |
+| 4860 | Spain          | Spain LIGA BBVA | Real Madrid CF | Getafe CF               |       8 |         8 |                32 |                9 |           8 |       0 |            0 |
+| 4868 | Spain          | Spain LIGA BBVA | Real Madrid CF | RCD Espanyol            |       8 |         8 |                27 |                5 |           6 |       2 |            0 |
+| 4882 | Spain          | Spain LIGA BBVA | Real Madrid CF | Villarreal CF           |       7 |         7 |                22 |                7 |           6 |       1 |            0 |
+| 4863 | Spain          | Spain LIGA BBVA | Real Madrid CF | Levante UD              |       6 |         6 |                19 |                3 |           6 |       0 |            0 |
+
+
+
 ### Related work
 
 [The Too-Much-Talent Effect: Team Interdependence Determines When More Talent Is Too Much or Not Enough](https://journals.sagepub.com/doi/10.1177/0956797614537280): Roderick I. Swaab, Michael Schaerer, Eric M. Anicich, Richard Ronay, Adam D. Galinsky
