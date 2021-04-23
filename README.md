@@ -19,8 +19,14 @@ Please, fill the following sections about your project.
 
 ### Dataset
 
-We decided to use a dataset from [Kaggle](https://www.kaggle.com/) as suggested. The dataset is called [European Soccer Database](https://www.kaggle.com/hugomathien/soccer). It's composed of data about teams, players and matches of 11 European countries teams. It contains the data of +10,000 players and +25,000 matches from 2008 to 2016. Players and teams attributes are sourced from EA Sports's FIFA video game series. The dataset has a lot of specific attributes that we won't need, as for example a player's prefered foot or a squad's formation, thus we will only use a subset of it to tackle our topic that we're going to introduce in the next section.
-The dataset is fairly clean, so we won't need much of preprocessing, but it contains many different tables with a lot of attributes that we won't need, which makes the data exploration a bit more tedious. We might end up needing to cross referencing our dataset with others to tackle our topic. 
+We decided to use a dataset from [Kaggle](https://www.kaggle.com/) as suggested. The dataset is called [European Soccer Database](https://www.kaggle.com/hugomathien/soccer). It contains data about teams, players and matches from 11 European leagues. There are +10,000 players and +25,000 matches from 2008 to 2016.
+
+Match data contains team names, the date and the result. Additionally, team line ups, detailed match events (goal types, possession, corner, cross, fouls, cards etc…) and multiple betting odds are available for most games.
+
+Players and teams attributes are sourced from EA Sports's FIFA video game series. 
+
+The dataset is fairly clean but there is some work to be done in the matches table. When available, match events need to be parsed to identify meaningful stats like goals or cards, and link them to particular players.
+
 
 ### Problematic
 
