@@ -30,7 +30,12 @@ The dataset is fairly clean but there is some work to be done in the matches tab
 
 ### Problematic
 
-Our inspiration comes from the [Too-Much-Talent Effect](https://journals.sagepub.com/doi/10.1177/0956797614537280), a study published in Psychological Science Journal. Whether we're trying to build a sports team or a team of engineers, most people will choose talent as their top criteria in recruting. But does grouping together individuals only on the basis of talent guarantee the best possible performance ? That's what the study was about, they looked into the relationship betweet team member's individual talents and team performance. They studied around 400 football matches from the 2010 and 2014 world cup. Surveys have shown that 37% of people believe that it's a linear relationship, the more stars in a team there is, the more successful it becomes. The result of the study have shown that individual talent helps the team's performance but only up to a certain point then it starts having a negative effect. We would like to induct this study topic on our dataset and to produce an interactive visualization for people who are unaware of this effect and for the 37% percent who don't believe it.
+
+Our inspiration comes from the [Too-Much-Talent Effect](https://journals.sagepub.com/doi/10.1177/0956797614537280), a study published in Psychological Science Journal.
+
+Whether they are trying to build a sports team or a team of engineers, most people will choose talent as their top criteria in recruiting. Is selecting individuals only based on talent the most effective way? That's what the study was about, they looked into the relationship between team member's individual talents and overall team performance. They studied around 400 football matches from the 2010 and 2014 world cup. Surveys have shown that 37% of people believe that it's a linear relationship, the more stars in a team there is, the more successful it becomes. This study shows that individual talent helps improve the team's performance up to a certain point, after which it may start having a negative effect.
+
+We would like to study this topic through our dataset and to produce an interactive visualization tool that will allow us to generate insights on this topic. It may make more people aware of this effect and even help some of that 37% change their minds.
 
 ### Exploratory Data Analysis
 
