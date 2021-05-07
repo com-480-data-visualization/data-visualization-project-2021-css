@@ -108,6 +108,32 @@ Or summarize matchups between teams. Here are some matchups for Real Madrid at h
 
 **10% of the final grade**
 
+### Data && motivation
+
+The main focus of our project is to test  the **too-much-talent effect** in European football.  The data that we use contains a large set of match results and other meaningful information across several European leagues. We intend to use this data to build several measures of team performance. Data from the popular **FIFA** series of video games is also available and will allow us to measure individual player attributes which we can then aggregate to measure team talent.
+
+The visualisation will be focused around comparing the designed metrics under user-specified filters (team, country, season ...). The main tool will be a large interactive scatter plot where the user will be able to contrast the theory. We intend to give readers a diverse selection of statistics so that they can obtain rich insights into this phenomenon.
+
+We may also include other visualisation tools more centered on teams, leagues or players, that will please the readers’ curiosity but that are not as focused around the too-much-talent-effect. Some examples of this could be:
+
+* team performance over time
+* player talent over time
+* compare leagues based on player talent
+
+
+
+Depending on the source (all leagues don’t have the same amount of data collected), the data set can be very rich and contain other interesting information such as goal scorers, penalty cards and player substitution which are not always directly related to a team’s success but could lead to interesting visualisation as well.
+
+### Website && ideas
+
+We intend to have a main menu in which the user can select what kind of statistics he wants to test and visualise. This menu would contain several categories such as players, teams, leagues and the-too-much-talent effect.
+
+The first three would be more “raw plots” without any interpretation behind, but for the fourth one, we would like include some interpretation clues to guide the reader and explain the main points made in the article.
+
+As said, we intend to use an interactive scatter plot to make connections between team performance and talent in our too-much-talent category. However, for the other three, visualisation can very well take other forms. For detailed player data, we could use star plots. To visualise a team’s match ups, we could use a circular flow chart. In the league  category, we thought of maybe including a map so the user can select the country’s league he wants to visualise.
+
+(https://com-480-data-visualization.github.io/data-visualization-project-2021-css/)[Our website skeleton]
+
 
 ## Milestone 3 (4th June, 5pm)
 
