@@ -132,7 +132,7 @@ The first three would be more “raw plots” without any interpretation behind,
 
 As said, we intend to use an interactive scatter plot to make connections between team performance and talent in our too-much-talent category. However, for the other three, visualisation can very well take other forms. For detailed player data, we could use star plots. To visualise a team’s match ups, we could use a circular flow chart. In the league  category, we thought of maybe including a map so the user can select the country’s league he wants to visualise.
 
-[ Our website skeleton ] (https://com-480-data-visualization.github.io/data-visualization-project-2021-css/)
+[Our website skeleton](https://com-480-data-visualization.github.io/data-visualization-project-2021-css/)
 
 
 ## Milestone 3 (4th June, 5pm)
