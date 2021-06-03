@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Project of Data Visualization</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <style>
         img {
             width: 200px;
@@ -26,7 +27,7 @@
         }
 
         body {
-            background-color: #5cdb95;
+            background-color: whitesmoke;
             text-align: center;
             color: black;
         }
@@ -46,6 +47,25 @@
         }
         h3{
             color: red;
+        }
+        #viz{
+            width: 100%;
+            background-color: white;
+            text-align: start;
+            padding: 0px;
+            margin: 0px;
+        }
+        #board{
+            width: 60%;
+            margin: 10px auto;
+            text-align: center;
+            height: 100px;
+            background-color: #ddd;
+            border: thick gray solid;
+            border-radius: 20px 10px;
+            line-height: 100px;
+            color: black;
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -88,7 +108,17 @@
         detailed player data, we could use star plots. To visualise a team’s match ups, we could use a circular flow chart. 
         In the league  category, we thought of maybe including a map so the user can select the country’s league he wants to visualise.
     </p>
-    <img src="La Liga-page-001(1).jpg"  style="border-radius: 20px 20px; width: 50%;"> 
+   
+
+    <div id="viz" style="margin: 10px auto; text-align: center;">
+        <select style="display: block; width: fit-content; margin: 10px auto;">
+            <option value="all" selected>All Teams Combined</option>
+        </select>
+    </div>
+    <div id="board">
+
+    </div>
+    
     <footer>
         <hr />
         <figure>
@@ -103,8 +133,175 @@
             <img src="https://avatars.githubusercontent.com/u/43466373?v=4">
             <figcaption>ksabaa15</figcaption>
         </figure>
-
     </footer>
+    
+
 </body>
+<script>
+    
+    d3.csv("final_df.csv", function(data){
+        team_names = Array.from(new Set(data.map(element=>element.team_long_name))).sort();
+        
+        function descrite(data){
+            var set = new Set()
+            for( var i=0; i<data.length; ++i){
+                set.add(data[i].total_score_discrete);
+            }
+            var intervals = Array.from(set).sort((a,b)=>(+a.substring(1,a.search(','))>+b.substring(1,b.search(',')))?1:-1);
+            var array =[]
+            for(var i=0; i<intervals.length; ++i){
+                interval = intervals[i];
+                intervalStart = +interval.substring(1,interval.search(','));
+                intervalEnd = +interval.substring(interval.search(',')+1,interval.length-1);
+                let average=0;
+                let number =0;
+                
+                for(var j=0; j<(data.filter(d=>d.total_score_discrete===interval)).length;++j){
+                    filterData = data.filter(d=>d.total_score_discrete===interval)
+                    average += +filterData[j].total_points;
+                    number +=1;
+                }
+                if (average!==0 && number !==0) {
+                    average= average /number;
+                }
+
+                array.push({x:Math.round((intervalEnd+intervalStart)/2), y:Math.round(average), count:number})  
+            }
+            return array;
+        }
+     
+
+        d3.select("select")
+        .selectAll("option")
+        .data(team_names)
+        .enter()
+        .append("option")
+        .text(function(d){return d;})
+        .attr("value",function(d){return d;});
+
+        const margin = {top: 40, right:90, bottom: 80, left: 60};
+        const width = 900 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;  
+    
+        let svg = d3.select("#viz")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")");
+
+        svg.append("text")             
+            .attr("transform","translate(" + ((width/2)-60) + " ," + (height + margin.top + 30) + ")")
+            .text("Players Ratings");
+
+        svg.append("text")
+            .attr("transform", "rotate(270)")
+            .attr("y", - margin.left/2 -10)
+            .attr("x",  -height/2 -60)
+            .text("Team Performance");   
+
+        let xScale= d3.scaleLinear()
+            .domain([0,2500])
+            .range([0,width]);
+        let yScale = d3.scaleLinear()
+            .domain([0,100])
+            .range([height,0]);
+
+        svg.append("g")
+            .attr("transform","translate(0,"+height+")")
+            .call(d3.axisBottom(xScale));
+        svg.append("g")
+            .call(d3.axisLeft(yScale));
+        
+        var d3data =descrite(data);
+
+        let courbe = svg.append("g")
+            .append("path")
+            .datum(d3data)
+            .attr("d",d3.line()
+                .x(function(d){ return xScale(d.x)})
+                .y(function(d){ return yScale(d.y)})
+            ).attr("stroke", "red")
+            .style("stroke-width",4)
+            .style("fill","none");
+  
+        svg.selectAll("circle")
+            .data(data).enter()
+            .append("circle")
+            .attr("cx", function(d) {return xScale(+d.total_score)})
+            .attr("cy", function(d) {return yScale(+d.total_points)})
+            .attr("r", 4)
+            .attr("stroke","red")
+            .style("fill","black")
+            .on('mouseover', function (d, i) {
+                d3.select(this).transition()
+                        .duration('150')
+                        .attr("r", 8)
+                        .style("fill","red");
+                d3.select("#board")
+                    .text(
+                        "Season: "+d.season+" Team: "+d.team_long_name
+                    );
+            })
+            .on('mouseout', function (d, i) {
+                d3.select(this).transition()
+                    .duration('250')
+                    .attr("r", 4)
+                    .style("fill","black");;
+
+                d3.select("#board")
+                    .select("text")
+                    .remove();
+            });
+            
+            
+        d3.select("select").on("change", function(d) {
+            let team = d3.select(this).property("value")
+            let newData = data.filter(element=>element.team_long_name===team);
+            if (team==="all"){
+                newData = data
+            }
+            courbe.datum(descrite(newData))
+            .transition()
+            .duration(800)
+            .attr("d",d3.line()
+                .x(function(d){ return xScale(d.x)})
+                .y(function(d){ return yScale(d.y)})
+            );
+
+            svg.selectAll("circle").remove();
+            svg.selectAll("circle")
+                .data(newData).enter()
+                .append("circle")
+                .attr("cx", function(d) {return xScale(+d.total_score)})
+                .attr("cy", function(d) {return yScale(+d.total_points)})
+                .attr("r", 4)
+                .attr("stroke","red")
+                .style("fill","black")
+                .on('mouseover', function (d, i) {
+                d3.select(this).transition()
+                            .duration('150')
+                            .attr("r", 8)
+                           .style("fill","red");;
+                    d3.select("#board")
+                        .text(
+                            "Season: "+d.season+" Team: "+d.team_long_name
+                        );
+                })
+                .on('mouseout', function (d, i) {
+                    d3.select(this).transition()
+                        .duration('250')
+                        .attr("r", 4)
+                        .style("fill","black");;
+
+                    d3.select("#board")
+                        .select("text")
+                        .remove();
+                });        
+         })
+    });
+  </script>
+
 
 </html>
