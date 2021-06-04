@@ -281,17 +281,9 @@
             }
 
             // Populate team selector
-            let team_data = d3.select('#team_select').data(newData)
-
-            team_data.exit().remove()
-
-            team_data.enter().append("option")
-                .text(function (d) {
-                    return d.team;
-                })
-                .attr("value", function (d) {
-                    return d.team;
-                })
+            d3.select('#team_select').selectAll('option').remove()
+            d3.select('#team_select').data(newData).enter()
+            .append('option').text(d => d.team).attr('value', d=> d.team)
 
 
 
@@ -337,8 +329,10 @@
             
         d3.select("#team_select").on("change", function(d) {
             team = d3.select(this).property("value")
-            let newData = data.filter(element=>element.team===team);
-            if (team==="all" && league === 'all'){
+            let newData = data.filter(element=>element.team===team && element.league_name === league);
+            if (team==="all"){
+                newData = data.filter(e => e.league_name == league)
+                if (league === 'all')
                 newData = data
             }
             courbe.datum(descrite(newData))
