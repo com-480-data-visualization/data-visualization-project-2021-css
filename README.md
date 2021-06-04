@@ -141,6 +141,8 @@ As said, we intend to use an interactive scatter plot to make connections betwee
 
 [Video Link](https://drive.google.com/file/d/1yOq0sfBSkZPdTYThvAVMNxnHH4hE45ah/view?usp=sharing)
 
+[Report](./data_viz_report.pdf)
+
 ## Late policy
 
 - < 24h: 80% of the grade for the milestone
