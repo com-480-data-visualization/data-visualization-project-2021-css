@@ -580,7 +580,9 @@ What is the relationship between the results of a team and the quality of its pl
                     .style("stroke-width", 4)
                     .style("fill", "none");
                 courbe.raise()
-                d3.select("#checkbox").on("change", function (d) {
+            }
+        })
+        d3.select("#checkbox").on("change", function (d) {
                     if (!d3.select(this).property("checked")) {
                         svg.selectAll("circle").remove();
                     } else {
@@ -620,8 +622,6 @@ What is the relationship between the results of a team and the quality of its pl
                             });
                     }
                 })
-            }
-        })
     });
 
   </script>
