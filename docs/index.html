@@ -101,6 +101,10 @@ What is the relationship between the results of a team and the quality of its pl
 
     <div id="viz" style="margin: 10px auto; text-align: center;">
         <div>
+            <select id="y_select" style="width: fit-content; margin: 10px auto;">
+                <option value="points" selected>Point Percentage</option>
+                <option value="rank">League ranking</option>
+            </select>
             <select id="league_select" style="width: fit-content; margin: 10px auto;">
                 <option value="all" selected>All leagues Combined</option>
             </select>
@@ -169,6 +173,8 @@ What is the relationship between the results of a team and the quality of its pl
         }
         var league = 'all'
         var team = 'all'
+        var mode = 'points'
+
 
         d3.select('#league_select')
         .selectAll('option')
@@ -286,43 +292,92 @@ What is the relationship between the results of a team and the quality of its pl
 
 
             svg.selectAll("circle").remove();
-            svg.selectAll("circle")
-                .data(newData).enter()
-                .append("circle")
-                .attr("cx", function(d) {return xScale(+d.team_avg_overall_rating)})
-                .attr("cy", function(d) {return yScale(100*d.perc_points)})
-                .attr("r", 4)
-                .attr("stroke","red")
-                .style("fill","black")
-                .on('mouseover', function (d, i) {
-                    d3.select(this).transition()
-                        .duration('150')
-                        .attr("r", 8)
-                        .style("fill","red");;
-                    d3.select("#board")
-                        .text(
-                            "Season: "+d.season+" Team: "+d.team
-                        );
+            // If plotting points
+            if (mode==='points') {
+                svg.selectAll("circle")
+                    .data(newData).enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return xScale(+d.team_avg_overall_rating)
+                    })
+                    .attr("cy", function (d) {
+                        return yScale(100 * d.perc_points)
+                    })
+                    .attr("r", 4)
+                    .attr("stroke", "red")
+                    .style("fill", "black")
+                    .on('mouseover', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('150')
+                            .attr("r", 8)
+                            .style("fill", "red");
+                        ;
+                        d3.select("#board")
+                            .text(
+                                "Season: " + d.season + " Team: " + d.team
+                            );
+                    })
+                    .on('mouseout', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('250')
+                            .attr("r", 4)
+                            .style("fill", "black");
+                        ;
+
+                        d3.select("#board")
+                            .select("text")
+                            .remove();
+                    });
+                courbe.datum(descrite(newData))
+                    .transition()
+                    .duration(800)
+                    .attr("d", d3.line()
+                        .x(function (d) {
+                            return xScale(d.x)
+                        })
+                        .y(function (d) {
+                            return yScale(d.y)
+                        })
+                    );
+                courbe.raise()
+            } /// Plotting ranking
+                else{
+                svg.selectAll("circle")
+                    .data(newData).enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return xScale(+d.team_avg_overall_rating)
+                    })
+                    .attr("cy", function (d) {
+                        return yScale(100 * d.rank_pct)
+                    })
+                    .attr("r", 4)
+                    .attr("stroke", "red")
+                    .style("fill", "black")
+                    .on('mouseover', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('150')
+                            .attr("r", 8)
+                            .style("fill", "red");
+                        ;
+                        d3.select("#board")
+                            .text(
+                                "Season: " + d.season + " Team: " + d.team
+                            );
+                    })
+                    .on('mouseout', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('250')
+                            .attr("r", 4)
+                            .style("fill", "black");
+                        ;
+
+                        d3.select("#board")
+                            .select("text")
+                            .remove();
                 })
-                .on('mouseout', function (d, i) {
-                    d3.select(this).transition()
-                        .duration('250')
-                        .attr("r", 4)
-                        .style("fill","black");;
-
-                    d3.select("#board")
-                        .select("text")
-                        .remove();
-                });
-
-            courbe.datum(descrite(newData))
-                .transition()
-                .duration(800)
-                .attr("d",d3.line()
-                    .x(function(d){ return xScale(d.x)})
-                    .y(function(d){ return yScale(d.y)})
-                );
-            courbe.raise()
+                courbe.remove()
+            }
         })
             
         d3.select("#team_select").on("change", function(d) {
@@ -333,81 +388,240 @@ What is the relationship between the results of a team and the quality of its pl
                 if (league === 'all')
                 newData = data
             }
-            courbe.datum(descrite(newData))
-            .transition()
-            .duration(800)
-            .attr("d",d3.line()
-                .x(function(d){ return xScale(d.x)})
-                .y(function(d){ return yScale(d.y)})
-            );
 
-            svg.selectAll("circle").remove();
-            svg.selectAll("circle")
-                .data(newData).enter()
-                .append("circle")
-                .attr("cx", function(d) {return xScale(+d.team_avg_overall_rating)})
-                .attr("cy", function(d) {return yScale(100*d.perc_points)})
-                .attr("r", 4)
-                .attr("stroke","red")
-                .style("fill","black")
-                .on('mouseover', function (d, i) {
-                d3.select(this).transition()
+            if (mode === 'points') {
+                svg.selectAll("circle").remove();
+                svg.selectAll("circle")
+                    .data(newData).enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return xScale(+d.team_avg_overall_rating)
+                    })
+                    .attr("cy", function (d) {
+                        return yScale(100 * d.perc_points)
+                    })
+                    .attr("r", 4)
+                    .attr("stroke", "red")
+                    .style("fill", "black")
+                    .on('mouseover', function (d, i) {
+                        d3.select(this).transition()
                             .duration('150')
                             .attr("r", 8)
-                           .style("fill","red");;
-                    d3.select("#board")
-                        .text(
-                            "Season: "+d.season+" Team: "+d.team
-                        );
-                })
-                .on('mouseout', function (d, i) {
-                    d3.select(this).transition()
-                        .duration('250')
-                        .attr("r", 4)
-                        .style("fill","black");;
+                            .style("fill", "red");
+                        ;
+                        d3.select("#board")
+                            .text(
+                                "Season: " + d.season + " Team: " + d.team + " : Wins: " + d.wins + " Draws: " + d.draws + " Losses: " + d.losses
+                            );
+                    })
+                    .on('mouseout', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('250')
+                            .attr("r", 4)
+                            .style("fill", "black");
+                        ;
 
-                    d3.select("#board")
-                        .select("text")
-                        .remove();
-                });        
+                        d3.select("#board")
+                            .select("text")
+                            .remove();
+                    });
+                courbe.datum(descrite(newData))
+                    .transition()
+                    .duration(800)
+                    .attr("d", d3.line()
+                        .x(function (d) {
+                            return xScale(d.x)
+                        })
+                        .y(function (d) {
+                            return yScale(d.y)
+                        })
+                    );
+                courbe.raise()
+            }
+            else {
+                svg.selectAll("circle")
+                    .data(newData).enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return xScale(+d.team_avg_overall_rating)
+                    })
+                    .attr("cy", function (d) {
+                        return yScale(100 * d.rank_pct)
+                    })
+                    .attr("r", 4)
+                    .attr("stroke", "red")
+                    .style("fill", "black")
+                    .on('mouseover', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('150')
+                            .attr("r", 8)
+                            .style("fill", "red");
+                        ;
+                        d3.select("#board")
+                            .text(
+                                "Season: " + d.season + " Team: " + d.team
+                            );
+                    })
+                    .on('mouseout', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('250')
+                            .attr("r", 4)
+                            .style("fill", "black");
+                        ;
+
+                        d3.select("#board")
+                            .select("text")
+                            .remove();
+                    })
+                courbe.remove()
+            }
          })
 
-         d3.select("#checkbox").on("change", function(d){
-                if(!d3.select(this).property("checked")){
-                    svg.selectAll("circle").remove();
-                }else{
-                    newData = data.filter(element=>element.league_name===league && element.team===team);
-                    svg.selectAll("circle")
-                        .data(data).enter()
-                        .append("circle")
-                        .attr("cx", function(d) {return xScale(+d.team_avg_overall_rating)})
-                        .attr("cy", function(d) {return yScale(100*d.perc_points)})
-                        .attr("r", 4)
-                        .attr("stroke","red")
-                        .style("fill","black")
-                        .on('mouseover', function (d, i) {
-                            d3.select(this).transition()
+        d3.select('#y_select').on('change', function(d){
+            let newData
+            if (league === 'all'){
+                newData = data
+            }
+            else if (team === 'all'){
+                newData = data.filter(e => e.league_name === league)
+            }
+            else {
+                newData = data.filter(e => e.team === team)
+            }
+            mode = d3.select(this).property('value')
+
+            if (mode === 'rank') {
+                courbe.remove()
+
+                svg.selectAll('circle').remove()
+                svg.selectAll("circle")
+                    .data(newData).enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return xScale(+d.team_avg_overall_rating)
+                    })
+                    .attr("cy", function (d) {
+                        return yScale(100 * d.rank_pct)
+                    })
+                    .attr("r", 4)
+                    .attr("stroke", "red")
+                    .style("fill", "black")
+                    .on('mouseover', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('150')
+                            .attr("r", 8)
+                            .style("fill", "red");
+                        ;
+                        d3.select("#board")
+                            .text(
+                                "Season: " + d.season + " Team: " + d.team + " : Wins: " + d.wins + " Draws: " + d.draws + " Losses: " + d.losses
+                            );
+                    })
+                    .on('mouseout', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('250')
+                            .attr("r", 4)
+                            .style("fill", "black");
+
+
+                        d3.select("#board")
+                            .select("text")
+                            .remove();
+                    });
+            }
+            else {
+                svg.selectAll('circle').remove()
+
+                svg.selectAll("circle")
+                    .data(newData).enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return xScale(+d.team_avg_overall_rating)
+                    })
+                    .attr("cy", function (d) {
+                        return yScale(100 * d.perc_points)
+                    })
+                    .attr("r", 4)
+                    .attr("stroke", "red")
+                    .style("fill", "black")
+                    .on('mouseover', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('150')
+                            .attr("r", 8)
+                            .style("fill", "red");
+                        ;
+                        d3.select("#board")
+                            .text(
+                                "Season: " + d.season + " Team: " + d.team + " : Wins: " + d.wins + " Draws: " + d.draws + " Losses: " + d.losses
+                            );
+                    })
+                    .on('mouseout', function (d, i) {
+                        d3.select(this).transition()
+                            .duration('250')
+                            .attr("r", 4)
+                            .style("fill", "black");
+                        ;
+
+                        d3.select("#board")
+                            .select("text")
+                            .remove();
+                    });
+                courbe = svg.append("g")
+                    .append("path")
+                    .datum(descrite(newData))
+                    .attr("d", d3.line()
+                        .x(function (d) {
+                            return xScale(d.x)
+                        })
+                        .y(function (d) {
+                            return yScale(d.y)
+                        })
+                    ).attr("stroke", "orange")
+                    .style("stroke-width", 4)
+                    .style("fill", "none");
+                courbe.raise()
+                d3.select("#checkbox").on("change", function (d) {
+                    if (!d3.select(this).property("checked")) {
+                        svg.selectAll("circle").remove();
+                    } else {
+                        newData = data.filter(element => element.league_name === league && element.team === team);
+                        svg.selectAll("circle")
+                            .data(data).enter()
+                            .append("circle")
+                            .attr("cx", function (d) {
+                                return xScale(+d.team_avg_overall_rating)
+                            })
+                            .attr("cy", function (d) {
+                                return yScale(100 * d.perc_points)
+                            })
+                            .attr("r", 4)
+                            .attr("stroke", "red")
+                            .style("fill", "black")
+                            .on('mouseover', function (d, i) {
+                                d3.select(this).transition()
                                     .duration('150')
                                     .attr("r", 8)
-                                    .style("fill","red");
-                            d3.select("#board")
-                                .text(
-                                    "Season: "+d.season+" Team: "+d.team
-                                );
-                        })
-                        .on('mouseout', function (d, i) {
-                            d3.select(this).transition()
-                                .duration('250')
-                                .attr("r", 4)
-                                .style("fill","black");;
+                                    .style("fill", "red");
+                                d3.select("#board")
+                                    .text(
+                                        "Season: " + d.season + " Team: " + d.team
+                                    );
+                            })
+                            .on('mouseout', function (d, i) {
+                                d3.select(this).transition()
+                                    .duration('250')
+                                    .attr("r", 4)
+                                    .style("fill", "black");
+                                ;
 
-                            d3.select("#board")
-                                .select("text")
-                                .remove();
-                        });
-                        courbe.raise()
-                }
-            });
+                                d3.select("#board")
+                                    .select("text")
+                                    .remove();
+                            });
+                    }
+                })
+            }
+        })
     });
 
   </script>
