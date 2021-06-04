@@ -119,6 +119,8 @@
             <select id="team_select" style="width: fit-content; margin: 10px auto;">
                 <option value="all" selected>All Teams Combined</option>
             </select>
+            <input type="checkbox" id="checkbox" checked>
+
         </div>
     </div>
     <div id="board">
@@ -271,7 +273,42 @@
             .style("stroke-width",4)
             .style("fill","none");
 
+            d3.select("#checkbox").on("change", function(d){
+                if(!d3.select(this).property("checked")){
+                    svg.selectAll("circle").remove();
+                }else{
+                    newData = data.filter(element=>element.league_name===league && element.team===team);
+                    svg.selectAll("circle")
+                        .data(data).enter()
+                        .append("circle")
+                        .attr("cx", function(d) {return xScale(+d.team_avg_overall_rating)})
+                        .attr("cy", function(d) {return yScale(100*d.perc_points)})
+                        .attr("r", 4)
+                        .attr("stroke","red")
+                        .style("fill","black")
+                        .on('mouseover', function (d, i) {
+                            d3.select(this).transition()
+                                    .duration('150')
+                                    .attr("r", 8)
+                                    .style("fill","red");
+                            d3.select("#board")
+                                .text(
+                                    "Season: "+d.season+" Team: "+d.team
+                                );
+                        })
+                        .on('mouseout', function (d, i) {
+                            d3.select(this).transition()
+                                .duration('250')
+                                .attr("r", 4)
+                                .style("fill","black");;
 
+                            d3.select("#board")
+                                .select("text")
+                                .remove();
+                        });
+                        courbe.raise();
+                }
+            });
         d3.select("#league_select").on("change", function(d) {
             league = d3.select(this).property("value")
 
@@ -280,6 +317,24 @@
                 team = 'all'
                 newData = data
             }
+
+            update(newData);
+        })
+            
+        d3.select("#team_select").on("change", function(d) {
+            team = d3.select(this).property("value")
+            let newData = data.filter(element=>element.team===team);
+            if (team==="all"){
+                newData = data.filter(e => e.league_name === league)
+                if (league === 'all')
+                newData = data
+            }
+            update(newData);
+         }) 
+    });
+    function update(newData){
+        league = d3.select(this).property("value")
+
 
             // Populate team selector
             let team_sel = d3.select('#team_select')
@@ -328,55 +383,7 @@
                     .y(function(d){ return yScale(d.y)})
                 );
             courbe.raise()
-        })
-            
-        d3.select("#team_select").on("change", function(d) {
-            team = d3.select(this).property("value")
-            let newData = data.filter(element=>element.team===team);
-            if (team==="all"){
-                newData = data.filter(e => e.league_name === league)
-                if (league === 'all')
-                newData = data
-            }
-            courbe.datum(descrite(newData))
-            .transition()
-            .duration(800)
-            .attr("d",d3.line()
-                .x(function(d){ return xScale(d.x)})
-                .y(function(d){ return yScale(d.y)})
-            );
-
-            svg.selectAll("circle").remove();
-            svg.selectAll("circle")
-                .data(newData).enter()
-                .append("circle")
-                .attr("cx", function(d) {return xScale(+d.team_avg_overall_rating)})
-                .attr("cy", function(d) {return yScale(100*d.perc_points)})
-                .attr("r", 4)
-                .attr("stroke","red")
-                .style("fill","black")
-                .on('mouseover', function (d, i) {
-                d3.select(this).transition()
-                            .duration('150')
-                            .attr("r", 8)
-                           .style("fill","red");;
-                    d3.select("#board")
-                        .text(
-                            "Season: "+d.season+" Team: "+d.team
-                        );
-                })
-                .on('mouseout', function (d, i) {
-                    d3.select(this).transition()
-                        .duration('250')
-                        .attr("r", 4)
-                        .style("fill","black");;
-
-                    d3.select("#board")
-                        .select("text")
-                        .remove();
-                });        
-         })
-    });
+    }
   </script>
 
 
