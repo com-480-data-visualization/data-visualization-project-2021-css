@@ -229,16 +229,6 @@
             .call(d3.axisLeft(yScale));
         
         var d3data =descrite(data);
-
-        let courbe = svg.append("g")
-            .append("path")
-            .datum(d3data)
-            .attr("d",d3.line()
-                .x(function(d){ return xScale(d.x)})
-                .y(function(d){ return yScale(d.y)})
-            ).attr("stroke", "red")
-            .style("stroke-width",4)
-            .style("fill","none");
   
         svg.selectAll("circle")
             .data(data).enter()
@@ -269,32 +259,34 @@
                     .remove();
             });
 
+        let courbe = svg.append("g")
+            .append("path")
+            .datum(d3data)
+            .attr("d",d3.line()
+                .x(function(d){ return xScale(d.x)})
+                .y(function(d){ return yScale(d.y)})
+            ).attr("stroke", "orange")
+            .style("stroke-width",4)
+            .style("fill","none");
+
 
         d3.select("#league_select").on("change", function(d) {
             league = d3.select(this).property("value")
 
             let newData = data.filter(element=>element.league_name===league);
             if (league==="all"){
-                d3.select('#team_select').selectedIndex = 0
                 team = 'all'
                 newData = data
             }
 
             // Populate team selector
-            d3.select('#team_select').selectAll('option').remove()
-            d3.select('#team_select').data(newData).enter()
-            .append('option').text(d => d.team).attr('value', d=> d.team)
+            let team_sel = d3.select('#team_select')
+            team_sel.selectAll('option').remove()
+            team_sel.append('option').text(d => 'All Teams Combined').attr('value', d => 'all')
+            let new_teams = Array.from(new Set(newData.map(e => e.team))).sort()
+            team_sel.selectAll('option').data(new_teams).enter()
+            .append('option').text(d => d).attr('value', d=> d)
 
-
-
-
-            courbe.datum(descrite(newData))
-                .transition()
-                .duration(800)
-                .attr("d",d3.line()
-                    .x(function(d){ return xScale(d.x)})
-                    .y(function(d){ return yScale(d.y)})
-                );
 
             svg.selectAll("circle").remove();
             svg.selectAll("circle")
@@ -325,13 +317,22 @@
                         .select("text")
                         .remove();
                 });
+
+            courbe.datum(descrite(newData))
+                .transition()
+                .duration(800)
+                .attr("d",d3.line()
+                    .x(function(d){ return xScale(d.x)})
+                    .y(function(d){ return yScale(d.y)})
+                );
+            courbe.raise()
         })
             
         d3.select("#team_select").on("change", function(d) {
             team = d3.select(this).property("value")
-            let newData = data.filter(element=>element.team===team && element.league_name === league);
+            let newData = data.filter(element=>element.team===team);
             if (team==="all"){
-                newData = data.filter(e => e.league_name == league)
+                newData = data.filter(e => e.league_name === league)
                 if (league === 'all')
                 newData = data
             }
